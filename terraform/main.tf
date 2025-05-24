@@ -14,7 +14,7 @@ provider "azurerm" {
 
 resource "azurerm_resource_group" "rg" {
   name     = "transcriberapp-rg"
-  location = "East Europe"
+  location = "polandcentral"
 }
 
 resource "azurerm_storage_account" "storage" {
