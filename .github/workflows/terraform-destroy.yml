@@ -15,8 +15,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup Terraform
+      - name: Setup Terraform with Terraform Cloud
         uses: hashicorp/setup-terraform@v2
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+          terraform_wrapper: false
 
       - name: Login to Azure using OIDC
         uses: azure/login@v1
@@ -29,6 +32,4 @@ jobs:
         run: terraform -chdir=terraform init
 
       - name: Terraform Destroy
-        env:
-          TF_VAR_subscription_id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         run: terraform -chdir=terraform destroy -auto-approve
