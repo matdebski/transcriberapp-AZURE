@@ -1,3 +1,21 @@
+terraform { 
+  cloud { 
+    organization = "matdebski" 
+    workspaces { 
+      name = "transcriberapp" 
+    } 
+  } 
+}
+
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "4.29.0"
+    }
+  }
+}
+
+
 terraform {
   required_providers {
     azurerm = {
