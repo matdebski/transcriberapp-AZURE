@@ -16,7 +16,6 @@ terraform {
 provider "azurerm" {
   features {}
   use_oidc = true
-  subscription_id ="00000000-0000-0000-0000-000000000000"
 }
 
 resource "azurerm_resource_group" "rg" {
