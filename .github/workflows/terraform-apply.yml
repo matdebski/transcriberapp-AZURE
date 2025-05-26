@@ -31,11 +31,6 @@ jobs:
 
       - name: Terraform Init
         run: terraform -chdir=terraform init
-      - name: Debug ARM vars
-        run: env | grep ARM
+
       - name: Terraform Apply
-        env:
-          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
         run: terraform -chdir=terraform apply -auto-approve
-        
-        
