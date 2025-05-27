@@ -32,3 +32,4 @@ jobs:
       - name: Deploy upload_function
         run: |
           cd backend/upload_function
+          func azure functionapp publish ${{ secrets.AZURE_FUNCTIONAPP_NAME }} --python
