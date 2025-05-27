@@ -1,9 +1,6 @@
 name: Deploy Azure Function (upload_function)
 
 on:
-  push:
-    paths:
-      - 'backend/upload_function/**'
   workflow_dispatch:
 
 jobs:
