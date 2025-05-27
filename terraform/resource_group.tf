@@ -1,4 +1,4 @@
 resource "azurerm_resource_group" "rg" {
-  name     = "transcriberapp-rg"
-  location = "polandcentral"
+  name     = "rg-${var.project_name}"
+  location = var.location
 }

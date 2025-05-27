@@ -1,10 +1,10 @@
 terraform {
-  cloud {
-    organization = "matdebski"
-    workspaces {
-      name = "transcriberapp-2"
-    }
-  }
+//  cloud {
+//    organization = "matdebski"
+//    workspaces {
+//      name = "transcriberapp-2"
+//    }
+// }
 
   required_providers {
     azurerm = {

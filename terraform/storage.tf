@@ -1,5 +1,5 @@
 resource "azurerm_storage_account" "storage" {
-  name                     = "transcriberstorage1"
+  name                     = "storage0${var.project_name}"
   resource_group_name      = azurerm_resource_group.rg.name
   location                 = azurerm_resource_group.rg.location
   account_tier             = "Standard"
@@ -7,13 +7,13 @@ resource "azurerm_storage_account" "storage" {
 }
 
 resource "azurerm_storage_container" "input" {
-  name                  = "input"
-  storage_account_name  = azurerm_storage_account.storage.name
+  name                  = "input-${var.project_name}"
+  storage_account_id  = azurerm_storage_account.storage.id
   container_access_type = "private"
 }
 
 resource "azurerm_storage_container" "output" {
-  name                  = "output"
-  storage_account_name  = azurerm_storage_account.storage.name
+  name                  = "output-${var.project_name}"
+  storage_account_id  = azurerm_storage_account.storage.id
   container_access_type = "private"
 }
