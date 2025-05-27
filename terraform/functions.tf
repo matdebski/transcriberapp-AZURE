@@ -1,43 +1,27 @@
-resource "azurerm_storage_account" "functions" {
-  name                     = "transcriberfuncsa"
+resource "azurerm_storage_account" "functions_storage" {
+  name                     = "transcriberfunct"
   resource_group_name      = azurerm_resource_group.rg.name
   location                 = azurerm_resource_group.rg.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
 
-#Function returns SAS token for Blob Storage
-resource "azurerm_function_app" "upload" {
+resource "azurerm_function_app" "upload_function" {
   name                       = "upload-function"
-  location                   = azurerm_resource_group.rg.location
   resource_group_name        = azurerm_resource_group.rg.name
-  storage_account_name       = azurerm_storage_account.functions.name
-  storage_account_access_key = azurerm_storage_account.functions.primary_access_key
-  os_type                    = "linux"
-  runtime_stack              = "python"
-  version                    = "4"
-}
-
-
-resource "azurerm_function_app" "preprocess" {
-  name                       = "preprocess-function"
   location                   = azurerm_resource_group.rg.location
-  resource_group_name        = azurerm_resource_group.rg.name
-  storage_account_name       = azurerm_storage_account.functions.name
-  storage_account_access_key = azurerm_storage_account.functions.primary_access_key
-  os_type                    = "linux"
-  runtime_stack              = "python"
-  version                    = "4"
-}
+  storage_account_name       = azurerm_storage_account.functions_storage.name
+  storage_account_access_key = azurerm_storage_account.functions_storage.primary_access_key
+  app_service_plan_id        = azurerm_app_service_plan.functions.id
 
+  os_type        = "linux"
+  version        = "~4"
+  runtime_stack  = "python"
+  functions_extension_version = "~4"
 
-resource "azurerm_function_app" "transcribe" {
-  name                       = "transcribe-function"
-  location                   = azurerm_resource_group.rg.location
-  resource_group_name        = azurerm_resource_group.rg.name
-  storage_account_name       = azurerm_storage_account.functions.name
-  storage_account_access_key = azurerm_storage_account.functions.primary_access_key
-  os_type                    = "linux"
-  runtime_stack              = "python"
-  version                    = "4"
+  site_config {
+    application_stack {
+      python_version = "3.10"
+    }
+  }
 }
