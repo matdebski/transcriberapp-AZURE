@@ -11,7 +11,7 @@ function App() {
     const selected = e.target.files[0];
     if (!selected) return;
 
-    const ext = selected.name.slice(((selected.name.lastIndexOf(".") - 1) >>> 0) + 2).toLowerCase();
+    const ext = selected.name.split(".").pop().toLowerCase();
     if (!allowedExtensions.includes("." + ext)) {
       setStatus("Invalid file type. Only audio/video formats are allowed.");
       return;
@@ -27,10 +27,7 @@ function App() {
     form.append("file", file);
     setStatus("Uploading...");
     try {
-      await axios.post(
-        "https://upload-transcriber.azurewebsites.net/api/upload", // <- Twój backend
-        form
-      );
+      await axios.post("/api/upload", form);
       setStatus("Uploaded and queued for processing");
     } catch (err) {
       setStatus("Upload failed");
