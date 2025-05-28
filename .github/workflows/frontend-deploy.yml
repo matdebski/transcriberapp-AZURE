@@ -1,11 +1,7 @@
 name: Deploy frontend to Azure Static Web App via Azure CLI
 
 on:
-  push:
-    paths:
-      - "frontend/**"
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   deploy:
