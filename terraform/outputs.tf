@@ -38,3 +38,7 @@ output "cognitive_service_key" {
   value     = azurerm_cognitive_account.cognitive.primary_access_key
   sensitive = true
 }
+
+output "frontend_url" {
+  value = azurerm_static_web_app.frontend.default_host_name
+}
