@@ -32,6 +32,25 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+        
+      - name: Publish upload_function
+        run: |
+          cd backend/upload_function
+          zip -r function.zip .
+          az functionapp deployment source config-zip \
+            --resource-group rg-transcriber \
+            --name upload-transcriber \
+            --src function.zip
+          cd ../..
+
+      - name: Get upload_function URL
+        id: get-func-url
+        run: |
+          url=$(az functionapp show \
+            --resource-group rg-transcriber \
+            --name upload-transcriber \
+            --query "defaultHostName" -o tsv)
+          echo "API_URL=https://$url/api/upload" >> $GITHUB_ENV
 
       - name: "Get and Mask SWA Token"
         uses: azure/CLI@v1
@@ -49,3 +68,5 @@ jobs:
           action: "upload"
           app_location: "frontend/build"
           skip_app_build: true
+          env: |
+            VITE_API_URL=${{ env.API_URL }}

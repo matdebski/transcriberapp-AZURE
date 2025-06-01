@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const allowedExtensions = [".wav", ".mp3", ".mp4", ".m4a", ".webm", ".ogg"];
+const API_URL = import.meta.env.VITE_API_URL;
 
 function App() {
   const [file, setFile] = useState(null);
@@ -27,7 +28,7 @@ function App() {
     form.append("file", file);
     setStatus("Uploading...");
     try {
-      await axios.post("/api/upload", form);
+      await axios.post(API_URL, form);
       setStatus("Uploaded and queued for processing");
     } catch (err) {
       setStatus("Upload failed");
