@@ -25,7 +25,7 @@ jobs:
           cd frontend
           npm install
           npm run build
-        
+
       - name: Azure Login with OIDC
         uses: azure/login@v1
         with:
@@ -33,11 +33,19 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Deploy using Azure CLI
+      - name: "Get and Mask SWA Token"
+        uses: azure/CLI@v1
+        with:
+        inlineScript: |
+          token=$(az staticwebapp secrets list -n frontend-transcriber | jq -r '.properties.apiKey')
+          echo "::add-mask::$token"
+          echo "SWA_TOKEN=$token" >> $GITHUB_ENV
+
+      - name: Deploy
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ''
+          azure_static_web_apps_api_token: ${{ env.SWA_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "build/"
-          
+          app_location: "frontend/build"
+          skip_app_build: true
