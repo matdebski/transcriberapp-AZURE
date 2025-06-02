@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const allowedExtensions = [".wav", ".mp3", ".mp4", ".m4a", ".webm", ".ogg"];
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = process.env.REACT_APP_API_URL;
+console.log(API_URL)
 
 function App() {
   const [file, setFile] = useState(null);
