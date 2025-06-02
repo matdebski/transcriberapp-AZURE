@@ -26,7 +26,7 @@ jobs:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
+        
       - name: Publish upload_function
         run: |
           cd backend/upload_function
@@ -47,13 +47,7 @@ jobs:
           echo "API_URL=https://$url/api/upload" >> $GITHUB_ENV
           echo "::notice::Upload Function API URL: https://$url/api/upload"
 
-      - name: Build React App with API URL
-        run: |
-          cd frontend
-          echo "VITE_API_URL=${{ env.API_URL }}" > .env
-          npm install
-          npm run build
-
+      
       - name: "Get and Mask SWA Token"
         uses: azure/CLI@v1
         with:
@@ -68,7 +62,6 @@ jobs:
           azure_static_web_apps_api_token: ${{ env.SWA_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "frontend/build"
-          skip_app_build: true
-          env: |
-            VITE_API_URL=${{ env.API_URL }}
+          app_location: "frontend"
+          app_build_command: VITE_API_URL=${{ env.API_URL }} npm run build
+
