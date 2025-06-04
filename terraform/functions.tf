@@ -20,10 +20,17 @@ resource "azurerm_linux_function_app" "upload_function" {
       python_version = "3.10"
     }
   }
+
+  app_settings = {
+    INPUT_CONTAINER_NAME  = azurerm_storage_container.input.name
+    STORAGE_ACCOUNT_NAME  = azurerm_storage_account.storage.name
+    STORAGE_ACCOUNT_KEY   = azurerm_storage_account.storage.primary_access_key
+  }
+
   depends_on = [
-  azurerm_storage_account.storage,
-  azurerm_service_plan.function_plan
-]
+    azurerm_storage_account.storage,
+    azurerm_service_plan.function_plan
+  ]
 }
 
 resource "azurerm_linux_function_app" "processing_function" {
