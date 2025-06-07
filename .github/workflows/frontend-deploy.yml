@@ -47,7 +47,9 @@ jobs:
         id: deploy-to-function-app
         with:
           app-name: upload-transcriber
-          package: backend/UploadFunction
+          package: backend/UploadFunction         
+          scm-do-build-during-deployment: true
+          enable-oryx-build: true
 
       - name: Get upload_function URL
         id: get-func-url
