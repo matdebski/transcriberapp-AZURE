@@ -26,6 +26,7 @@ resource "azurerm_linux_function_app" "upload_function" {
     STORAGE_ACCOUNT_NAME  = azurerm_storage_account.storage.name
     STORAGE_ACCOUNT_KEY   = azurerm_storage_account.storage.primary_access_key
     WEBSITE_RUN_FROM_PACKAGE = "1"
+    AzureWebJobsFeatureFlags ="EnableWorkerIndexing"
   }
 
   depends_on = [

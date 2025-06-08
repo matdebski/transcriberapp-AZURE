@@ -1,11 +1,15 @@
 import azure.functions as func
+import datetime
+import json
+import logging
+
 import uuid
 import os
 from azure.storage.blob import BlobServiceClient
 
 app = func.FunctionApp()
 
-container_name = os.environ["INPUT_CONTAINER_NAME"]
+container_name = os.environ["INPUT_CONTAINER_NAME"] #"input-transcriber"
 account_name = os.environ["STORAGE_ACCOUNT_NAME"]
 account_key = os.environ["STORAGE_ACCOUNT_KEY"]
 
@@ -16,8 +20,11 @@ connection_string = (
     f"EndpointSuffix=core.windows.net"
 )
 
+#connection_string="AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;DefaultEndpointsProtocol=http;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;"
+
 blob_service_client = BlobServiceClient.from_connection_string(connection_string)
 
+@app.function_name('UploadFunction')
 @app.route(route="upload", auth_level=func.AuthLevel.ANONYMOUS)
 def upload(req: func.HttpRequest) -> func.HttpResponse:
     try:
