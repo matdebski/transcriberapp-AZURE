@@ -29,10 +29,11 @@ function App() {
     form.append("file", file);
     setStatus("Uploading...");
     try {
-      await axios.post(API_URL, form);
-      setStatus("Uploaded and queued for processing");
+      const res = await axios.post(API_URL, form);
+      setStatus(res.data.message || "Upload succeeded");
     } catch (err) {
-      setStatus("Upload failed");
+      const errorMsg = err.response?.data?.message || "Upload failed";
+      setStatus(errorMsg);
     }
   };
 
