@@ -13,3 +13,12 @@ resource "azurerm_servicebus_queue" "transcribe_queue" {
     azurerm_servicebus_namespace.sb
   ]
 }
+
+resource "azurerm_servicebus_namespace_authorization_rule" "upload_sender" {
+  name                = "upload-sender-rule"
+  namespace_id      = azurerm_servicebus_namespace.sb.id
+
+  listen = false
+  send   = true
+  manage = false
+}
