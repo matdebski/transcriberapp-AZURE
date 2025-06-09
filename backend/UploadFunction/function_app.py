@@ -8,8 +8,8 @@ from azure.storage.blob import BlobServiceClient
 app = func.FunctionApp()
 
 container_name = os.environ["INPUT_CONTAINER_NAME"]#"input-transcriber"
-# account_name = os.environ["STORAGE_ACCOUNT_NAME"]
-# account_key = os.environ["STORAGE_ACCOUNT_KEY"]
+account_name = os.environ["STORAGE_ACCOUNT_NAME"]
+account_key = os.environ["STORAGE_ACCOUNT_KEY"]
 
 connection_string = (
     f"DefaultEndpointsProtocol=https;"
