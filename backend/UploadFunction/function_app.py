@@ -4,10 +4,29 @@ import logging
 import uuid
 import os
 from azure.storage.blob import BlobServiceClient
+from azure.servicebus.aio import ServiceBusClient
+from azure.servicebus import ServiceBusMessage
+import asyncio
+
+async def send_message(file_id):
+    conn_str = os.environ["SERVICE_BUS_CONNECTION_STRING"]
+    queue_name = os.environ["SERVICE_BUS_QUEUE_NAME"]
+
+    servicebus_client = ServiceBusClient.from_connection_string(conn_str)
+    async with servicebus_client:
+        sender = servicebus_client.get_queue_sender(queue_name=queue_name)
+        async with sender:
+            msg = ServiceBusMessage(json.dumps({
+                "file_id": file_id,
+            }))
+            await sender.send_messages(msg)
+
+
+
 
 app = func.FunctionApp()
 
-container_name = os.environ["INPUT_CONTAINER_NAME"]#"input-transcriber"
+container_name = os.environ["INPUT_CONTAINER_NAME"]
 account_name = os.environ["STORAGE_ACCOUNT_NAME"]
 account_key = os.environ["STORAGE_ACCOUNT_KEY"]
 
@@ -50,6 +69,8 @@ def upload(req: func.HttpRequest) -> func.HttpResponse:
         blob_client = blob_service_client.get_blob_client(container=container_name, blob=file_id)
         blob_client.upload_blob(file.stream, metadata={"original_filename": filename})
 
+        asyncio.run(send_message(file_id))
+        
         return func.HttpResponse(
             json.dumps({"message": "Upload successful", "file_id": file_id}),
             status_code=200,
