@@ -86,7 +86,7 @@ jobs:
           app_build_command: npm run build
         env:
           REACT_APP_API_URL: ${{ env.API_URL }}
-      
+
       - name: Get frontend static web app hostname
         id: get-frontend-host
         run: |
@@ -102,8 +102,4 @@ jobs:
           az functionapp cors add \
             --name upload-transcriber \
             --resource-group rg-transcriber \
-            --origin ${{ env.FRONTEND_HOSTNAME }}
-
-      
-
-          
+            --allowed-origins ${{ env.FRONTEND_HOSTNAME }}
