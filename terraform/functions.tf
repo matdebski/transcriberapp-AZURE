@@ -6,14 +6,6 @@ resource "azurerm_service_plan" "function_plan" {
   sku_name            = "Y1"
 }
 
-resource "azurerm_static_web_app" "frontend" {
-  name                = "frontend-${var.project_name}"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
-  sku_tier = "Free"
-}
-
-
 resource "azurerm_linux_function_app" "upload_function" {
   name                = "upload-${var.project_name}"
   resource_group_name = azurerm_resource_group.rg.name
@@ -26,11 +18,6 @@ resource "azurerm_linux_function_app" "upload_function" {
   site_config {
     application_stack {
       python_version = "3.10"
-    }
-    cors {
-      allowed_origins = [
-        "https://${azurerm_static_web_app.frontend.default_host_name}"
-      ]
     }
   }
 
@@ -69,4 +56,9 @@ resource "azurerm_linux_function_app" "processing_function" {
   ]
 }
 
-
+resource "azurerm_static_web_app" "frontend" {
+  name                = "frontend-${var.project_name}"
+  resource_group_name = azurerm_resource_group.rg.name
+  location            = azurerm_resource_group.rg.location
+  sku_tier = "Free"
+}

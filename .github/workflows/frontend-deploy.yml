@@ -86,3 +86,24 @@ jobs:
           app_build_command: npm run build
         env:
           REACT_APP_API_URL: ${{ env.API_URL }}
+      
+      - name: Get frontend static web app hostname
+        id: get-frontend-host
+        run: |
+          hostname=$(az staticwebapp show \
+            --name frontend-transcriber \
+            --resource-group rg-transcriber \
+            --query "defaultHostname" -o tsv)
+          echo "FRONTEND_HOSTNAME=https://$hostname" >> $GITHUB_ENV
+          echo "::notice::Frontend available at https://$hostname"
+
+      - name: Add frontend to CORS
+        run: |
+          az functionapp cors add \
+            --name upload-transcriber \
+            --resource-group rg-transcriber \
+            --origin ${{ env.FRONTEND_HOSTNAME }}
+
+      
+
+          
