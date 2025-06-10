@@ -1,4 +1,4 @@
-name: Deploy Azure Functions and Fronend
+name: Deploy Azure Functions and Frontend
 
 on:
   workflow_dispatch:
