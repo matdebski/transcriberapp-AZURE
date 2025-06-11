@@ -65,7 +65,7 @@ resource "azurerm_linux_function_app" "processing_function" {
     INPUT_CONTAINER_NAME            = azurerm_storage_container.input.name
     STORAGE_ACCOUNT_NAME            = azurerm_storage_account.storage.name
     STORAGE_ACCOUNT_KEY             = azurerm_storage_account.storage.primary_access_key
-    SERVICE_BUS_CONNECTION_STRING   = azurerm_servicebus_namespace.servicebus.default_primary_connection_string
+    SERVICE_BUS_CONNECTION_STRING   = azurerm_servicebus_namespace.sb.default_primary_connection_string
     SERVICE_BUS_QUEUE_NAME          = azurerm_servicebus_queue.transcribe_queue.name
   }
 
