@@ -3,6 +3,8 @@ import os
 import json
 import azure.functions as func
 from azure.storage.blob import BlobServiceClient
+import azure.cognitiveservices.speech as speechsdk
+
 
 container_name = os.environ["INPUT_CONTAINER_NAME"]
 account_name = os.environ["STORAGE_ACCOUNT_NAME"]
@@ -18,6 +20,10 @@ connection_string = (
 
 blob_service_client = BlobServiceClient.from_connection_string(connection_string)
 
+speech_key = os.environ["SPEECH_KEY"]
+service_region = os.environ["SPEECH_REGION"]
+
+
 app = func.FunctionApp()
 
 @app.function_name(name="ProcessMessage")
@@ -30,11 +36,21 @@ def process_message(msg: func.ServiceBusMessage):
 
         logging.info(f"Processing file: {file_id}")
 
-        # Pobieranie pliku z blob storage
         blob_client = blob_service_client.get_blob_client(container=container_name, blob=file_id)
         stream = blob_client.download_blob().readall()
 
         logging.info(f"File {file_id} size: {len(stream)} bytes")
 
+        temp_file = f"/tmp/{file_id}"
+        with open(temp_file, "wb") as f:
+            f.write(stream)
+
+        speech_config = speechsdk.SpeechConfig(subscription=speech_key, region=service_region)
+        audio_config = speechsdk.audio.AudioConfig(filename=temp_file)
+        recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, audio_config=audio_config)
+
+        result = recognizer.recognize_once()
+        logging.info(f"Transcription for {file_id}: {result.text}")
+
     except Exception as e:
-        logging.exception("Processing failed")
+        logging.exception(f"Processing failed: {str(e)}")

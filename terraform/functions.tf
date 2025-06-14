@@ -67,6 +67,8 @@ resource "azurerm_linux_function_app" "processing_function" {
     STORAGE_ACCOUNT_KEY             = azurerm_storage_account.storage.primary_access_key
     SERVICE_BUS_CONNECTION_STRING   = azurerm_servicebus_namespace.sb.default_primary_connection_string
     SERVICE_BUS_QUEUE_NAME          = azurerm_servicebus_queue.transcribe_queue.name
+    SPEECH_KEY                      = azurerm_cognitive_account.cognitive.primary_access_key
+    SPEECH_REGION                   = azurerm_cognitive_account.cognitive.location
   }
 
   depends_on = [
