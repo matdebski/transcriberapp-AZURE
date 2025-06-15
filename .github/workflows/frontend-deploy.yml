@@ -25,13 +25,13 @@ jobs:
         with:
           python-version: "3.10"
 
-      - name: "Resolve Project Dependencies Using Pip"
-        shell: bash
-        run: |
-          pushd "backend/UploadFunction"
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt --target=".python_packages/lib/site-packages"
-          popd
+      # - name: "Resolve Project Dependencies Using Pip"
+      #   shell: bash
+      #   run: |
+      #     pushd "backend/UploadFunction"
+      #     python -m pip install --upgrade pip
+      #     pip install -r requirements.txt --target=".python_packages/lib/site-packages"
+      #     popd
 
       - name: Azure Login with OIDC
         uses: azure/login@v1
