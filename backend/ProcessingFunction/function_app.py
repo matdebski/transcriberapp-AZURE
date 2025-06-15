@@ -7,6 +7,7 @@ import azure.cognitiveservices.speech as speechsdk
 
 
 container_name = os.environ["INPUT_CONTAINER_NAME"]
+output_container = os.environ["OUTPUT_CONTAINER_NAME"]
 account_name = os.environ["STORAGE_ACCOUNT_NAME"]
 account_key = os.environ["STORAGE_ACCOUNT_KEY"]
 
@@ -50,7 +51,14 @@ def process_message(msg: func.ServiceBusMessage):
         recognizer = speechsdk.SpeechRecognizer(speech_config=speech_config, audio_config=audio_config)
 
         result = recognizer.recognize_once()
-        logging.info(f"Transcription for {file_id}: {result.text}")
+        transcription = result.text
+
+        logging.info(f"Transcription for {file_id}: {transcription}")
+
+        output_blob_client = blob_service_client.get_blob_client(container=output_container, blob=file_id + ".txt")
+        output_blob_client.upload_blob(transcription, overwrite=True)
+
+        logging.info(f"Saved transcription for {file_id}")
 
     except Exception as e:
         logging.exception(f"Processing failed: {str(e)}")

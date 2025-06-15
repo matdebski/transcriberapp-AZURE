@@ -20,18 +20,18 @@ jobs:
         with:
           node-version: "18"
 
-      - name: Setup Python Environment
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.10"
+      # - name: Setup Python Environment
+      #   uses: actions/setup-python@v4
+      #   with:
+      #     python-version: "3.10"
 
-      - name: "Resolve Project Dependencies Using Pip"
-        shell: bash
-        run: |
-          pushd "backend/UploadFunction"
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt --target=".python_packages/lib/site-packages"
-          popd
+      # - name: "Resolve Project Dependencies Using Pip"
+      #   shell: bash
+      #   run: |
+      #     pushd "backend/UploadFunction"
+      #     python -m pip install --upgrade pip
+      #     pip install -r requirements.txt --target=".python_packages/lib/site-packages"
+      #     popd
 
       - name: Azure Login with OIDC
         uses: azure/login@v1
@@ -44,10 +44,15 @@ jobs:
         run: |
           npm install -g azure-functions-core-tools@4 --unsafe-perm true
 
-      - name: Publish function using Azure Functions Core Tools
+      - name: Publish UploadFunction using Azure Functions Core Tools
         run: |
           func azure functionapp publish upload-transcriber --python
         working-directory: backend/UploadFunction
+
+      - name: Publish ProcessingFunction using Azure Functions Core Tools
+        run: |
+          func azure functionapp publish processing-transcriber --python
+        working-directory: backend/ProcessingFunction
 
       # - name: "Run the Azure Functions action"
       #   uses: Azure/functions-action@v1
