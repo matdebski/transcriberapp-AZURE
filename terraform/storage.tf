@@ -16,4 +16,11 @@ resource "azurerm_storage_container" "output" {
   name                  = "output-${var.project_name}"
   storage_account_id  = azurerm_storage_account.storage.id
   container_access_type = "blob"
+    cors_rule {
+    allowed_origins    = ["*.azurestaticapps.net"]
+    allowed_methods    = ["GET"]
+    allowed_headers    = ["*"]
+    exposed_headers    = ["*"]
+    max_age_in_seconds = 3600
+  }
 }
