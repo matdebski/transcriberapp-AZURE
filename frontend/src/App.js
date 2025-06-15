@@ -33,7 +33,9 @@ function App() {
     setStatus("Uploading...");
     try {
       const res = await axios.post(API_URL, form);
-      setStatus(res.data.message || "Upload succeeded");
+      const fileId = res.data.file_id;
+      setStatus("File uploaded. Processing...");
+      checkResult(fileId);
     } catch (err) {
       const errorMsg = err.response?.data?.message || "Upload failed";
       setStatus(errorMsg);
@@ -41,8 +43,8 @@ function App() {
   };
 
   const checkResult = async (fileId) => {
-    const url = `${BLOB_STORAGE_URL}${fileId}.txt`;
-
+    const url = `${BLOB_STORAGE_URL}/${fileId}.txt`;
+    console.log("Checking result...")
     const interval = setInterval(async () => {
       try {
         const response = await fetch(url);
