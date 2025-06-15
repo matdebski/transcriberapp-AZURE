@@ -15,5 +15,5 @@ resource "azurerm_storage_container" "input" {
 resource "azurerm_storage_container" "output" {
   name                  = "output-${var.project_name}"
   storage_account_id  = azurerm_storage_account.storage.id
-  container_access_type = "private"
+  container_access_type = "blob"
 }
