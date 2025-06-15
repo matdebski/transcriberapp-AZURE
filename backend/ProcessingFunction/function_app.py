@@ -55,7 +55,7 @@ def process_message(msg: func.ServiceBusMessage):
 
         logging.info(f"Transcription for {file_id}: {transcription}")
 
-        output_blob_client = blob_service_client.get_blob_client(container=output_container, blob=file_id + ".txt")
+        output_blob_client = blob_service_client.get_blob_client(container=output_container, blob=file_id)
         output_blob_client.upload_blob(transcription, overwrite=True)
 
         logging.info(f"Saved transcription for {file_id}")

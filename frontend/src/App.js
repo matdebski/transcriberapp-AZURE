@@ -43,8 +43,9 @@ function App() {
   };
 
   const checkResult = async (fileId) => {
-    const url = `${BLOB_STORAGE_URL}/${fileId}.txt`;
+    const url = `${BLOB_STORAGE_URL}/${fileId}`;
     console.log("Checking result...")
+    console.log(url);
     const interval = setInterval(async () => {
       try {
         const response = await fetch(url);
