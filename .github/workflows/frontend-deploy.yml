@@ -46,12 +46,12 @@ jobs:
 
       - name: Publish UploadFunction using Azure Functions Core Tools
         run: |
-          func azure functionapp publish upload-transcriber --python
+          func azure functionapp publish upload-transcriber --python --build remote
         working-directory: backend/UploadFunction
 
       - name: Publish ProcessingFunction using Azure Functions Core Tools
         run: |
-          func azure functionapp publish processing-transcriber --python
+          func azure functionapp publish processing-transcriber --python --build remote
         working-directory: backend/ProcessingFunction
 
       # - name: "Run the Azure Functions action"
