@@ -13,8 +13,9 @@ A full-stack serverless application for transcribing audio/video files, using Az
 
 
 ## Architecture Overview
+![Architecture Diragram](https://github.com/user-attachments/assets/d431b60e-527a-431d-a9b2-710659258d20)
 
-![image](https://github.com/user-attachments/assets/b90cbb1c-c4ea-422f-ac47-7296a9de265c)
+
 
 ## Tech Stack
 
@@ -36,7 +37,11 @@ A full-stack serverless application for transcribing audio/video files, using Az
 | Frontend build & deploy (React)      | ✅ Completed  | Hosted on Azure Static Web Apps                                     |
 | Upload endpoint                      | ✅ Completed  | Working with real files, checks extensions                          |
 | Blob Storage integration             | ✅ Completed  | Files stored successfully                                           |
+| Service Bus integration              | ✅ Completed| Messaging between functions works                                     |
+| Processing function (transcription) | ✅ Completed| Speech-to-Text integrated                                              |
+| Application Insights integration	✅ | Completed	| Logging for monitoring/debugging Azure Functions |
 | GitHub Actions automation            | ✅ Completed  | Full CI/CD including function publish and env injection             |
-| Processing function (transcription) | 🟡 In progress| Function exists, needs reliable cognitive integration                |
-| Transcript preview in UI            | ⏳ Planned    | Not yet displayed to user                                             |
-| Authentication layer                | ⏳ Planned    | Current endpoints are public                                          |
+| Github workflow Improvements  | ⏳ Planned    |   Workflow layout, Artifacts usage, Caching |
+| Authentication and security layer                | ⏳ Planned    | For now endpoints are public                                          |
+| More advanced UI                      | ⏳ Planned    | Current interface is minimal   |
+| Video file support (ffmpeg)    | ❌ Removed  | Dropped from current scope for simplicity     |
