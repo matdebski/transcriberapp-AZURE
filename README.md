@@ -22,7 +22,7 @@ The file is stored in Azure Blob Storage in the input container with file_id (UU
 
 | Layer        | Technology                           |
 |--------------|---------------------------------------|
-| Frontend     | React HTML/CSS                        |
+| Frontend     | React                        |
 | Backend      | Azure Functions (Python)              |
 | Transcription| Azure Cognitive Services – Speech API |
 | Messaging    | Azure Service Bus                     |
